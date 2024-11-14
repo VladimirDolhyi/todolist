@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>
+    TODO list
+    <a href="#" class="btn btn-primary link-to-page">
+      Add task
+    </a>
+  </h1>
+  <br>
+
+  <div>
+    {% if task_list %}
+      {% for task in task_list %}
+        <p>{{ task.content }}
+          {% if task.is_done %}
+            Done
+          {% else %}
+            Not done
+          {% endif %}</p>
+        <p>{{ task.created_at }} {{ task.deadline }}</p>
+        <p>{% for tag in task.tags.all %}
+          Tags: {{ tag.name }}
+          <a href="">
+            Update
+          </a>
+          <a href="">
+            Delete
+          </a>
+        {% endfor %}</p>
+        <hr>
+      {% endfor %}
+    {% else %}
+      <p>There are no tasks.</p>
+    {% endif %}
+  </div>
+{% endblock %}
