@@ -3,7 +3,7 @@
 {% block content %}
   <h1>
     TODO list
-    <a href="#" class="btn btn-primary link-to-page">
+    <a href="{% url 'notepad:task-create' %}" class="btn btn-primary link-to-page">
       Add task
     </a>
   </h1>
@@ -12,19 +12,33 @@
   <div>
     {% if task_list %}
       {% for task in task_list %}
-        <p>{{ task.content }}
+        <p style="font-size: 18px;"><strong>{{ task.content }}
           {% if task.is_done %}
-            Done
+            <span style="color: green">Done</span>
+            <form action="{% url 'notepad:toggle-task-complete' pk=task.id %}" method="post" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger link-to-page">Undo</button>
+            </form>
           {% else %}
-            Not done
-          {% endif %}</p>
-        <p>{{ task.created_at }} {{ task.deadline }}</p>
-        <p>{% for tag in task.tags.all %}
-          Tags: {{ tag.name }}
-          <a href="">
+            <span style="color: red">Not done</span>
+            <form action="{% url 'notepad:toggle-task-complete' pk=task.id %}" method="post" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-success link-to-page">Complete</button>
+            </form>
+          {% endif %}
+        </strong></p>
+        <p>
+          Created: {{ task.created_at }}
+          {% if task.deadline %}
+            <span style="color: brown">Deadline: {{ task.deadline }}</span>
+          {% endif %}
+        </p>
+        <p style="font-size: 18px;">{% for tag in task.tags.all %}
+          <span class="text-muted">Tags: {{ tag.name }}</span>
+          <a href="{% url 'notepad:task-update' pk=task.id %}">
             Update
           </a>
-          <a href="">
+          <a href="{% url 'notepad:task-delete' pk=task.id %}">
             Delete
           </a>
         {% endfor %}</p>
