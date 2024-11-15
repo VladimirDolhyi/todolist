@@ -57,11 +57,11 @@ class ToggleCompleteTaskView(View):
     @staticmethod
     def post(request, pk):
         task = get_object_or_404(Task, pk=pk)
-        task.is_done = not task.is_done  # Переключаем статус задачи
-        task.save()  # Сохраняем изменения
+        task.is_done = not task.is_done  # Switching the task status
+        task.save()  # Save changes
 
-        # Получаем текущие параметры запроса
-        page = request.POST.get("page", 1)  # По умолчанию 1, если не указан
+        # We get the current request parameters
+        page = request.POST.get("page", 1)  # Defaults to 1 if not specified
 
-        # Используем reverse для перенаправления на маршрут 'notepad:index'
+        # Use reverse to redirect to the "notepad:index" route
         return HttpResponseRedirect(f'{reverse("notepad:index")}?page={page}')
