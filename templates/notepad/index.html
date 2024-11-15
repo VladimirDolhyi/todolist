@@ -20,7 +20,8 @@
               {% csrf_token %}
               <input type="hidden" name="page" value="{{ page_obj.number }}">
               <button type="submit" class="btn btn-secondary text-white link-to-page"
-                      style="margin-top: -45px;">Undo</button>
+                      style="margin-top: -45px;">Undo
+              </button>
             </form>
           {% else %}
             <span style="color: red">Not done</span>
@@ -29,7 +30,8 @@
               {% csrf_token %}
               <input type="hidden" name="page" value="{{ page_obj.number }}">
               <button type="submit" class="btn btn-success link-to-page"
-                      style="margin-top: -45px;">Complete</button>
+                      style="margin-top: -45px;">Complete
+              </button>
             </form>
           {% endif %}
         </strong></p>
