@@ -9,7 +9,7 @@ from notepad.views import (
     TaskDeleteView,
     TagUpdateView,
     TagDeleteView,
-    ToggleConfirmTaskView,
+    ToggleCompleteTaskView,
 )
 
 urlpatterns = [
@@ -21,8 +21,8 @@ urlpatterns = [
          name="task-update"),
     path("tasks/<int:pk>/delete/", TaskDeleteView.as_view(),
          name="task-delete"),
-    path("tasks/<int:pk>/toggle-complete/", ToggleConfirmTaskView.as_view(),
-         name="toggle-task-complete"),
+    path("tasks/<int:pk>/toggle-complete/", ToggleCompleteTaskView.as_view(),
+         name="toggle-complete-task"),
     path("tags/", TagListView.as_view(), name="tag-list"),
     path("tags/create/", TagCreateView.as_view(), name="tag-create"),
     path("tags/<int:pk>/update/", TagUpdateView.as_view(),

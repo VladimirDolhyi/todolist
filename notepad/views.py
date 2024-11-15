@@ -1,5 +1,6 @@
-from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy, reverse
 from django.views import generic, View
 
 from notepad.forms import TaskForm, TagForm
@@ -51,10 +52,15 @@ class TagDeleteView(generic.DeleteView):
     success_url = reverse_lazy("notepad:tag-list")
 
 
-class ToggleConfirmTaskView(View):
+class ToggleCompleteTaskView(View):
     @staticmethod
     def post(request, pk):
         task = get_object_or_404(Task, pk=pk)
         task.is_done = not task.is_done  # Переключаем статус задачи
         task.save()  # Сохраняем изменения
-        return redirect("notepad:index")  # Перенаправляем на страницу со списком задач
+
+        # Получаем текущие параметры запроса
+        page = request.POST.get("page", 1)  # По умолчанию 1, если не указан
+
+        # Используем reverse для перенаправления на маршрут 'notepad:index'
+        return HttpResponseRedirect(f'{reverse("notepad:index")}?page={page}')

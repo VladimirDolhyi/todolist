@@ -15,15 +15,21 @@
         <p style="font-size: 18px;"><strong>{{ task.content }}
           {% if task.is_done %}
             <span style="color: green">Done</span>
-            <form action="{% url 'notepad:toggle-task-complete' pk=task.id %}" method="post" style="display:inline;">
+            <form action="{% url 'notepad:toggle-complete-task' pk=task.id %}"
+                  method="post" style="display:inline;">
               {% csrf_token %}
-              <button type="submit" class="btn btn-danger link-to-page">Undo</button>
+              <input type="hidden" name="page" value="{{ page_obj.number }}">
+              <button type="submit" class="btn btn-secondary text-white link-to-page"
+                      style="margin-top: -45px;">Undo</button>
             </form>
           {% else %}
             <span style="color: red">Not done</span>
-            <form action="{% url 'notepad:toggle-task-complete' pk=task.id %}" method="post" style="display:inline;">
+            <form action="{% url 'notepad:toggle-complete-task' pk=task.id %}"
+                  method="post" style="display:inline;">
               {% csrf_token %}
-              <button type="submit" class="btn btn-success link-to-page">Complete</button>
+              <input type="hidden" name="page" value="{{ page_obj.number }}">
+              <button type="submit" class="btn btn-success link-to-page"
+                      style="margin-top: -45px;">Complete</button>
             </form>
           {% endif %}
         </strong></p>

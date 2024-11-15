@@ -12,3 +12,9 @@ body {
     float: right;
     margin: 0 2px 0 2px;
 }
+
+.btn-success {
+    background-color: #005f00 !important; /* Темно-зеленый цвет фона */
+    color: white !important; /* Белый цвет текста */
+    border-color: #005f00 !important; /* Цвет границы */
+}
