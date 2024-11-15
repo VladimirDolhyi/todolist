@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>
+    TODO list
+    <a href="{% url 'notepad:task-create' %}" class="btn btn-primary link-to-page">
+      Add task
+    </a>
+  </h1>
+  <br>
+
+  <div>
+    {% if task_list %}
+      {% for task in task_list %}
+        <p style="font-size: 18px;"><strong>{{ task.content }}
+          {% if task.is_done %}
+            <span style="color: green">Done</span>
+            <form action="{% url 'notepad:toggle-complete-task' pk=task.id %}"
+                  method="post" style="display:inline;">
+              {% csrf_token %}
+              <input type="hidden" name="page" value="{{ page_obj.number }}">
+              <button type="submit" class="btn btn-secondary text-white link-to-page"
+                      style="margin-top: -45px;">Undo
+              </button>
+            </form>
+          {% else %}
+            <span style="color: red">Not done</span>
+            <form action="{% url 'notepad:toggle-complete-task' pk=task.id %}"
+                  method="post" style="display:inline;">
+              {% csrf_token %}
+              <input type="hidden" name="page" value="{{ page_obj.number }}">
+              <button type="submit" class="btn btn-success link-to-page"
+                      style="margin-top: -45px;">Complete
+              </button>
+            </form>
+          {% endif %}
+        </strong></p>
+        <p>
+          Created: {{ task.created_at }}
+          {% if task.deadline %}
+            <span style="color: brown">Deadline: {{ task.deadline }}</span>
+          {% endif %}
+        </p>
+        <p style="font-size: 18px;">{% for tag in task.tags.all %}
+          <span class="text-muted">Tags: {{ tag.name }}</span>
+          <a href="{% url 'notepad:task-update' pk=task.id %}">
+            Update
+          </a>
+          <a href="{% url 'notepad:task-delete' pk=task.id %}">
+            Delete
+          </a>
+        {% endfor %}</p>
+        <hr>
+      {% endfor %}
+    {% else %}
+      <p>There are no tasks.</p>
+    {% endif %}
+  </div>
+{% endblock %}
